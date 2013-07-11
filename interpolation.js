@@ -13,16 +13,19 @@ ig.module('plugins.joncom.interpolation.interpolation')
         callback: null,
         done: false,
 
-        init: function(start, end, duration, callback) {
+        dynamicEnd: {
+            object: null,
+            property: ''
+        },
+
+        init: function(settings) {
             this.timer = new ig.Timer();
             this.value = start;
-            this.start = start;
-            this.end = end;
-            this.duration = duration;
-            if(callback) {
-                this.callback = callback;
+            if(typeof settings === 'object') {
+                ig.merge(this, settings);
             }
-            if(start === end) {
+            var endWasSet = settings.hasOwnProperty('end');
+            if (endWasSet && this.start === this.end) {
                 this.done = true;
                 if(typeof this.callback === 'function') {
                     this.callback();
@@ -37,15 +40,24 @@ ig.module('plugins.joncom.interpolation.interpolation')
             }
             else if(!this.done && this.timer.delta() >= this.duration) {
                 this.done = true;
-                this.value = this.end;
+                this.value = (
+                    this.dynamicEnd.object ?
+                    this.dynamicEnd.object[this.dynamicEnd.property] :
+                    this.end
+                );
                 if(typeof this.callback === 'function') {
                     this.callback();
                 }
             }
             else if(!this.done && this.timer.delta() < this.duration) {
+                var end = (
+                    this.dynamicEnd.object ?
+                    this.dynamicEnd.object[this.dynamicEnd.property] :
+                    this.end
+                );
                 var v = (this.duration - this.timer.delta()) / this.duration;
                 v = v * v * v * v; // Adds "higher power" easing.
-                this.value = (this.start * v) + (this.end * (1 - v));
+                this.value = (this.start * v) + (end * (1 - v));
             }
         }
 
