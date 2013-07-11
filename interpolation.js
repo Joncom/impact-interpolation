@@ -1,5 +1,5 @@
 ig.module('plugins.joncom.interpolation.interpolation')
-.requires('impact.impact')
+.requires('impact.impact', 'impact.game')
 .defines(function(){
 
     ig.Interpolation = ig.Class.extend({
@@ -19,6 +19,7 @@ ig.module('plugins.joncom.interpolation.interpolation')
             if(callback) {
                 this.callback = callback;
             }
+            ig.Interpolation.instances.push(this);
         },
 
         update: function() {
@@ -38,6 +39,19 @@ ig.module('plugins.joncom.interpolation.interpolation')
             return this.currentValue;
         }
 
+    });
+
+    ig.Interpolation.instances = [];
+
+    ig.Game.inject({
+        update: function() {
+            var instanceCount = ig.Interpolation.instances.length;
+            for(var i=0; i<instanceCount; i++) {
+                var instance = ig.Interpolation.instances[i];
+                instance.update();
+            }
+            this.parent();
+        }
     });
 
 });
