@@ -24,8 +24,7 @@ ig.module('plugins.joncom.interpolation.interpolation')
                 ig.merge(this, settings);
             }
             this.value = this.start;
-            var endWasSet = settings.hasOwnProperty('end');
-            if (endWasSet && this.start === this.end) {
+            if (this.start === this.getEnd()) {
                 this.done = true;
                 if(typeof this.callback === 'function') {
                     this.callback();
@@ -40,25 +39,24 @@ ig.module('plugins.joncom.interpolation.interpolation')
             }
             else if(!this.done && this.timer.delta() >= this.duration) {
                 this.done = true;
-                this.value = (
-                    this.dynamicEnd.object ?
-                    this.dynamicEnd.object[this.dynamicEnd.property] :
-                    this.end
-                );
+                this.value = this.getEnd();
                 if(typeof this.callback === 'function') {
                     this.callback();
                 }
             }
             else if(!this.done && this.timer.delta() < this.duration) {
-                var end = (
-                    this.dynamicEnd.object ?
-                    this.dynamicEnd.object[this.dynamicEnd.property] :
-                    this.end
-                );
                 var v = (this.duration - this.timer.delta()) / this.duration;
                 v = v * v * v * v; // Adds "higher power" easing.
-                this.value = (this.start * v) + (end * (1 - v));
+                this.value = (this.start * v) + (this.getEnd() * (1 - v));
             }
+        },
+
+        getEnd: function() {
+            return (
+                this.dynamicEnd.object ?
+                this.dynamicEnd.object[this.dynamicEnd.property] :
+                this.end
+            );
         }
 
     });
