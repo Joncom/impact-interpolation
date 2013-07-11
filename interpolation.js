@@ -25,11 +25,7 @@ ig.module('plugins.joncom.interpolation.interpolation')
             }
             this.value = this.start;
             if (this.start === this.getEnd()) {
-                this.done = true;
-                if(typeof this.callback === 'function') {
-                    this.callback();
-                }
-                this.cleanup();
+                this.onDone();
             }
             ig.Interpolation.instances.push(this);
         },
@@ -39,12 +35,8 @@ ig.module('plugins.joncom.interpolation.interpolation')
                 return;
             }
             else if(!this.done && this.timer.delta() >= this.duration) {
-                this.done = true;
                 this.value = this.getEnd();
-                if(typeof this.callback === 'function') {
-                    this.callback();
-                }
-                this.cleanup();
+                this.onDone();
             }
             else if(!this.done && this.timer.delta() < this.duration) {
                 var v = (this.duration - this.timer.delta()) / this.duration;
@@ -59,6 +51,14 @@ ig.module('plugins.joncom.interpolation.interpolation')
                 this.dynamicEnd.object[this.dynamicEnd.property] :
                 this.end
             );
+        },
+
+        onDone: function() {
+            this.done = true;
+            if(typeof this.callback === 'function') {
+                this.callback();
+            }
+            this.cleanup();
         },
 
         cleanup: function() {
