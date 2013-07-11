@@ -40,10 +40,6 @@ ig.module('plugins.joncom.interpolation.interpolation')
                 v = v * v * v * v; // Adds "higher power" easing.
                 this.value = (this.start * v) + (this.end * (1 - v));
             }
-        },
-
-        getValue: function() {
-            return this.currentValue;
         }
 
     });
