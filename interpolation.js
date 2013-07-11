@@ -4,9 +4,10 @@ ig.module('plugins.joncom.interpolation.interpolation')
 
     ig.Interpolation = ig.Class.extend({
 
+        value: 0,
+
         start: 0,
         end: 100,
-        currentValue: 0,
         timer: null,
         duration: 1,
         callback: null,
@@ -23,15 +24,15 @@ ig.module('plugins.joncom.interpolation.interpolation')
         },
 
         update: function() {
-            if(this.timer.delta() < this.duration) {
-                var v = (this.duration - this.timer.delta()) / this.duration;
-                v = v * v * v * v; // Adds "higher power" easing.
-                this.currentValue = (this.start * v) + (this.end * (1 - v));
-            } else {
-                this.currentValue = this.end;
+            if(this.timer.delta() >= this.duration) {
+                this.value = this.end;
                 if(typeof this.callback === 'function') {
                     this.callback();
                 }
+            } else {
+                var v = (this.duration - this.timer.delta()) / this.duration;
+                v = v * v * v * v; // Adds "higher power" easing.
+                this.value = (this.start * v) + (this.end * (1 - v));
             }
         },
 
