@@ -11,6 +11,7 @@ ig.module('plugins.joncom.interpolation.interpolation')
         timer: null,
         duration: 1,
         callback: null,
+        callbackCalled: false,
 
         init: function(start, end, duration, callback) {
             this.timer = new ig.Timer();
@@ -26,13 +27,19 @@ ig.module('plugins.joncom.interpolation.interpolation')
         update: function() {
             if(this.timer.delta() >= this.duration) {
                 this.value = this.end;
-                if(typeof this.callback === 'function') {
-                    this.callback();
-                }
+                this.handleCallback();
             } else {
                 var v = (this.duration - this.timer.delta()) / this.duration;
                 v = v * v * v * v; // Adds "higher power" easing.
                 this.value = (this.start * v) + (this.end * (1 - v));
+            }
+        },
+
+        handleCallback: function() {
+            var callbackExists = typeof this.callback === 'function';
+            if(!this.callbackCalled && callbackExists) {
+                this.callbackCalled = true;
+                this.callback();
             }
         },
 
