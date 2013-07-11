@@ -21,6 +21,12 @@ ig.module('plugins.joncom.interpolation.interpolation')
             if(callback) {
                 this.callback = callback;
             }
+            if(start === end) {
+                this.done = true;
+                if(typeof this.callback === 'function') {
+                    this.callback();
+                }
+            }
             ig.Interpolation.instances.push(this);
         },
 
