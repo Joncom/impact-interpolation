@@ -20,10 +20,10 @@ ig.module('plugins.joncom.interpolation.interpolation')
 
         init: function(settings) {
             this.timer = new ig.Timer();
-            this.value = start;
             if(typeof settings === 'object') {
                 ig.merge(this, settings);
             }
+            this.value = this.start;
             var endWasSet = settings.hasOwnProperty('end');
             if (endWasSet && this.start === this.end) {
                 this.done = true;
