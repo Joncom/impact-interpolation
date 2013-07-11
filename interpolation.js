@@ -7,11 +7,12 @@ ig.module('plugins.joncom.interpolation.interpolation')
         start: 0,
         end: 100,
         currentValue: 0,
-        timer: new ig.Timer(),
+        timer: null,
         duration: 1,
         callback: null,
 
         init: function(start, end, duration, callback) {
+            this.timer = new ig.Timer();
             this.start = start;
             this.end = end;
             this.duration = duration;
