@@ -15,6 +15,7 @@ ig.module('plugins.joncom.interpolation.interpolation')
 
         init: function(start, end, duration, callback) {
             this.timer = new ig.Timer();
+            this.value = start;
             this.start = start;
             this.end = end;
             this.duration = duration;
