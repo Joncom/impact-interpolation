@@ -29,6 +29,7 @@ ig.module('plugins.joncom.interpolation.interpolation')
                 if(typeof this.callback === 'function') {
                     this.callback();
                 }
+                this.cleanup();
             }
             ig.Interpolation.instances.push(this);
         },
@@ -43,6 +44,7 @@ ig.module('plugins.joncom.interpolation.interpolation')
                 if(typeof this.callback === 'function') {
                     this.callback();
                 }
+                this.cleanup();
             }
             else if(!this.done && this.timer.delta() < this.duration) {
                 var v = (this.duration - this.timer.delta()) / this.duration;
@@ -57,6 +59,11 @@ ig.module('plugins.joncom.interpolation.interpolation')
                 this.dynamicEnd.object[this.dynamicEnd.property] :
                 this.end
             );
+        },
+
+        cleanup: function() {
+            // Break pointer for garbage collection.
+            this.dynamicEnd.object = null;
         }
 
     });
