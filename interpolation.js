@@ -12,6 +12,7 @@ ig.module('plugins.joncom.interpolation.interpolation')
         duration: 1,
         callback: null,
         done: false,
+        easing: true,
 
         dynamicEnd: {
             object: null,
@@ -40,7 +41,9 @@ ig.module('plugins.joncom.interpolation.interpolation')
             }
             else if(!this.done && this.timer.delta() < this.duration) {
                 var v = (this.duration - this.timer.delta()) / this.duration;
-                v = v * v * v * v; // Adds "higher power" easing.
+                if(this.easing) {
+                    v = v * v * v * v; // Adds "higher power" easing.
+                }
                 this.value = (this.start * v) + (this.getEnd() * (1 - v));
             }
         },
