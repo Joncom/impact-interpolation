@@ -1,22 +1,7 @@
 impact-interpolation
 ====================
 
-### Properties ###
-
-##### .start #####
-The initial number to start counting from.
-
-##### .end #####
-The target number to end on.
-
-##### .duration #####
-The time in seconds from start to end.
-
-##### .value #####
-The current interpolation value.
-
-##### .done #####
-Boolean that is `true` after duration elapses.
+#### Smoothly tween numbers in ImpactJS. ####
 
 ### Example ###
 
@@ -35,7 +20,29 @@ var interpolation = new ig.Interpolation(settings);
 console.log(interpolation.value); // 0
 console.log(interpolation.done); // false
 
+// After between 0 and 10 seconds have past...
+console.log(interpolation.value); // number between 0-10
+console.log(interpolation.done); // false
+
 // After 10 seconds have past...
 console.log(interpolation.value); // 10
 console.log(interpolation.done); // true
 ```
+
+### Properties ###
+
+##### .start #####
+The initial number to start counting from.
+
+##### .end #####
+The target number to end on.
+
+##### .duration #####
+The time in seconds from start to end.
+
+##### .value #####
+The current interpolation value.
+
+##### .done #####
+Boolean that is `true` after duration elapses.
+
