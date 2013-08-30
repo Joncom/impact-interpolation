@@ -38,11 +38,11 @@ The initial number to start counting from.
 The target number to end on.
 
 ##### .duration #####
-The time in seconds from start to end.
+The time in seconds from `start` to `end`.
 
 ##### .value #####
 The current interpolation value.
 
 ##### .done #####
-Boolean that is `true` after duration elapses.
+Boolean that is `true` after `duration` elapses.
 
