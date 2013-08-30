@@ -14,18 +14,13 @@ ig.module('plugins.joncom.interpolation.interpolation')
         done: false,
         easing: true,
 
-        dynamicEnd: {
-            object: null,
-            property: ''
-        },
-
         init: function(settings) {
             this.timer = new ig.Timer();
             if(typeof settings === 'object') {
                 ig.merge(this, settings);
             }
             this.value = this.start;
-            if (this.start === this.getEnd()) {
+            if (this.start === this.end) {
                 this.onDone();
             }
             ig.Interpolation.instances.push(this);
@@ -36,7 +31,7 @@ ig.module('plugins.joncom.interpolation.interpolation')
                 return;
             }
             else if(!this.done && this.timer.delta() >= this.duration) {
-                this.value = this.getEnd();
+                this.value = this.end;
                 this.onDone();
             }
             else if(!this.done && this.timer.delta() < this.duration) {
@@ -44,16 +39,8 @@ ig.module('plugins.joncom.interpolation.interpolation')
                 if(this.easing) {
                     v = v * v * v * v; // Adds "higher power" easing.
                 }
-                this.value = (this.start * v) + (this.getEnd() * (1 - v));
+                this.value = (this.start * v) + (this.end * (1 - v));
             }
-        },
-
-        getEnd: function() {
-            return (
-                this.dynamicEnd.object ?
-                this.dynamicEnd.object[this.dynamicEnd.property] :
-                this.end
-            );
         },
 
         onDone: function() {
@@ -61,12 +48,6 @@ ig.module('plugins.joncom.interpolation.interpolation')
             if(typeof this.callback === 'function') {
                 this.callback();
             }
-            this.cleanup();
-        },
-
-        cleanup: function() {
-            // Break pointer for garbage collection.
-            this.dynamicEnd.object = null;
         }
 
     });
