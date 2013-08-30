@@ -5,7 +5,6 @@ ig.module('plugins.joncom.interpolation.interpolation')
     ig.Interpolation = ig.Class.extend({
 
         value: 0,
-
         start: 0,
         end: 100,
         timer: null,
