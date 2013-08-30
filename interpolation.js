@@ -20,7 +20,8 @@ ig.module('plugins.joncom.interpolation.interpolation')
                 ig.merge(this, settings);
             }
             this.value = this.start;
-            if (this.start === this.end) {
+            if (this.start === this.end ||
+                    this.duration === 0) {
                 this.onDone();
             }
             ig.Interpolation.instances.push(this);
