@@ -32,7 +32,6 @@ ig.module('plugins.joncom.interpolation.interpolation')
                 return;
             }
             else if(!this.done && this.timer.delta() >= this.duration) {
-                this.value = this.end;
                 this.onDone();
             }
             else if(!this.done && this.timer.delta() < this.duration) {
@@ -45,6 +44,7 @@ ig.module('plugins.joncom.interpolation.interpolation')
         },
 
         onDone: function() {
+            this.value = this.end;
             this.done = true;
             if(typeof this.callback === 'function') {
                 this.callback();
