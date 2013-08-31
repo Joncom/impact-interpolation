@@ -24,7 +24,7 @@ console.log(interpolation.done); // false
 console.log(interpolation.value); // number between 0-10
 console.log(interpolation.done); // false
 
-// When 10 seconds have past...
+// When 10 or more seconds have past...
 console.log(interpolation.value); // 10
 console.log(interpolation.done); // true
 ```
