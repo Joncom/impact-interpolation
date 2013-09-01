@@ -4,62 +4,43 @@ ig.module('plugins.joncom.interpolation.interpolation')
 
     ig.Interpolation = ig.Class.extend({
 
-        value: 0,
-        start: 0,
-        end: 100,
+        start: null,
+        end: null,
+        duration: null,
         timer: null,
-        duration: 1,
-        callback: null,
-        done: false,
+        done: null,
+        value: null,
 
-        init: function(settings) {
+        init: function(start, end, duration) {
+            this.start = start;
+            this.end = end;
+            this.duration = duration;
             this.timer = new ig.Timer();
-            if(typeof settings === 'object') {
-                ig.merge(this, settings);
-            }
-            this.value = this.start;
-            if (this.start === this.end ||
-                    this.duration === 0) {
-                this.onDone();
-            }
-            ig.Interpolation.instances.push(this);
+            var instance = this;
+            Object.defineProperty(this, 'done', {
+                get: function() {
+                    return (instance.timer.delta() >=
+                        instance.duration);
+                }
+            });
+            Object.defineProperty(this, 'value', {
+                get: function() {
+                    if(instance.done) {
+                        return instance.end;
+                    }
+                    else {
+                        return instance._calculateValue();
+                    }
+                }
+            });
         },
 
-        update: function() {
-            if(this.done) {
-                return;
-            }
-            else if(!this.done && this.timer.delta() >= this.duration) {
-                this.onDone();
-            }
-            else if(!this.done && this.timer.delta() < this.duration) {
-                var v = (this.duration - this.timer.delta()) / this.duration;
-                v = v * v * v * v; // Adds "higher power" easing.
-                this.value = (this.start * v) + (this.end * (1 - v));
-            }
-        },
-
-        onDone: function() {
-            this.value = this.end;
-            this.done = true;
-            if(typeof this.callback === 'function') {
-                this.callback();
-            }
+        _calculateValue: function() {
+            var v = (this.duration - this.timer.delta()) / this.duration;
+            v = v * v * v * v; // Adds "higher power" easing.
+            return (this.start * v) + (this.end * (1 - v));
         }
 
-    });
-
-    ig.Interpolation.instances = [];
-
-    ig.Game.inject({
-        update: function() {
-            var instanceCount = ig.Interpolation.instances.length;
-            for(var i=0; i<instanceCount; i++) {
-                var instance = ig.Interpolation.instances[i];
-                instance.update();
-            }
-            this.parent();
-        }
     });
 
 });
