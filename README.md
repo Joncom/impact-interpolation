@@ -42,3 +42,6 @@ The current interpolation value.
 ##### .done #####
 Boolean that is `true` after `duration` elapses.
 
+### TODO ###
+
+Add different easing options.
