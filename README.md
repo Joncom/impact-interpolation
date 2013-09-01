@@ -6,15 +6,11 @@ impact-interpolation
 ### Example ###
 
 ```
-// You can set properties directly...
-var interpolation = new ig.Interpolation();
-interpolation.start = 0;
-interpolation.end = 10;
-interpolation.duration = 3;
-
-// Or you can pass them as an object...
-var settings = { start: 0, end: 10, duration: 3 };
-var interpolation = new ig.Interpolation(settings);
+// Create a new instance...
+var start = 0;
+var end = 10;
+var duration = 3;
+var interpolation = new ig.Interpolation(start, end, duration);
 
 // When 0 seconds have past...
 console.log(interpolation.value); // 0
