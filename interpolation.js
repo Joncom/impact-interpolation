@@ -39,6 +39,9 @@ ig.module('plugins.joncom.interpolation.interpolation')
         },
         OUT: function(v) {
             return v * v * v * v;
+        },
+        SMOOTHSTEP: function(v) {
+            return (v) * (v) * (3 - 2 * (v));
         }
     };
 
