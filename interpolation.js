@@ -5,7 +5,7 @@ ig.module('plugins.joncom.interpolation.interpolation')
         this.start = start || 0;
         this.end = end || 0;
         this.duration = duration || 0;
-        this._easeFn = _easeFn || function(v) { return v; };
+        this._easeFn = _easeFn;
         this._startTime = ig.Timer.time;
         return this;
     };
