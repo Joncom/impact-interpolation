@@ -40,6 +40,6 @@ ig.module('plugins.joncom.interpolation.interpolation')
         OUT: function(v) {
             return v * v * v * v;
         }
-    }
+    };
 
 });
