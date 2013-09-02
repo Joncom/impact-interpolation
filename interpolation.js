@@ -1,46 +1,36 @@
 ig.module('plugins.joncom.interpolation.interpolation')
-.requires('impact.impact', 'impact.game')
 .defines(function(){
 
-    ig.Interpolation = ig.Class.extend({
+    ig.Interpolation = function(start, end, duration, _easeFn) {
+        this.start = start || 0;
+        this.end = end || 0;
+        this.duration = duration || 0;
+        this._easeFn = _easeFn || function(v) { return v; };
+        this._startTime = ig.Timer.time;
+        return this;
+    };
 
-        start: null,
-        end: null,
-        duration: null,
-        timer: null,
-        done: null,
-        value: null,
-
-        init: function(start, end, duration) {
-            this.start = start;
-            this.end = end;
-            this.duration = duration;
-            this.timer = new ig.Timer();
-            var instance = this;
-            Object.defineProperty(this, 'done', {
-                get: function() {
-                    return (instance.timer.delta() >=
-                        instance.duration);
-                }
-            });
-            Object.defineProperty(this, 'value', {
-                get: function() {
-                    if(instance.done) {
-                        return instance.end;
-                    }
-                    else {
-                        return instance._calculateValue();
-                    }
-                }
-            });
-        },
-
-        _calculateValue: function() {
-            var v = (this.duration - this.timer.delta()) / this.duration;
-            v = v * v * v * v; // Adds "higher power" easing.
-            return (this.start * v) + (this.end * (1 - v));
+    ig.Interpolation.prototype.valueOf = function() {
+        if (this.done) {
+            return this.end;
         }
+        var elapsed = ig.Timer.time - this._startTime
+        var v = (this.duration - elapsed) / this.duration;
+        if (this._easeFn) {
+            v = this._easeFn(v);
+        }
+        return (this.start * v) + (this.end * (1-v));
+    };
 
+    Object.defineProperty(ig.Interpolation.prototype, 'value', {
+        get: this.valueOf
+    });
+
+    Object.defineProperty(ig.Interpolation.prototype, 'done', {
+        get: function() {
+            var elapsed = ig.Timer.time - this._startTime;
+            return (elapsed >= this.duration);
+        }
     });
 
 });
