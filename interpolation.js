@@ -33,4 +33,13 @@ ig.module('plugins.joncom.interpolation.interpolation')
         }
     });
 
+    ig.Interpolation.EASE = {
+        IN: function(v) {
+            return 1 - (1 - v) * (1 - v) * (1 - v) * (1 - v);
+        },
+        OUT: function(v) {
+            return v * v * v * v;
+        }
+    }
+
 });
