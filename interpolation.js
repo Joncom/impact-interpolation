@@ -23,7 +23,7 @@ ig.module('plugins.joncom.interpolation.interpolation')
     };
 
     Object.defineProperty(ig.Interpolation.prototype, 'value', {
-        get: this.valueOf
+        get: ig.Interpolation.prototype.valueOf
     });
 
     Object.defineProperty(ig.Interpolation.prototype, 'done', {
