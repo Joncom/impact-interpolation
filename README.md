@@ -4,7 +4,7 @@ impact-interpolation
 #### Smoothly tween numbers in ImpactJS. ####
 
 ### Example ###
-
+`new ig.Interpolation(start, end, duration[, ease])`
 ```
 // Create a new instance...
 var start = 0;
