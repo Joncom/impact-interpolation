@@ -27,8 +27,7 @@ console.log(interpolation.value); // 10
 console.log(interpolation.done); // true
 ```
 
-### Easing ###
-The following are valid ease functions:
+### Ease Functions ###
 - `ig.Interpolation.EASE.IN`
 - `ig.Interpolation.EASE.OUT`
 - `ig.Interpolation.EASE.SMOOTHSTEP`
