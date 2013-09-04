@@ -10,7 +10,9 @@ impact-interpolation
 var start = 0;
 var end = 10;
 var duration = 3;
-var interpolation = new ig.Interpolation(start, end, duration);
+var ease = ig.Interpolation.EASE.OUT;
+var interpolation = new ig.Interpolation(
+    start, end, duration, ease);
 
 // When 0 seconds have past...
 console.log(interpolation.value); // 0
@@ -24,6 +26,12 @@ console.log(interpolation.done); // false
 console.log(interpolation.value); // 10
 console.log(interpolation.done); // true
 ```
+
+### Easing ###
+The following are valid ease functions:
+- `ig.Interpolation.EASE.IN`
+- `ig.Interpolation.EASE.OUT`
+- `ig.Interpolation.EASE.SMOOTHSTEP`
 
 ### Properties ###
 
@@ -41,7 +49,3 @@ The current interpolation value.
 
 ##### .done #####
 Boolean that is `true` after `duration` elapses.
-
-### TODO ###
-
-Add different easing options.
